@@ -2,7 +2,11 @@
 
 
 ## Ancient Dungeon
-https://store.steampowered.com/app/1125240/Ancient_Dungeon/  
+Link: https://store.steampowered.com/app/1125240/Ancient_Dungeon/  
+
+Primary: Direct link to the Game's steam page. THe dev has their own website but you can ony purchase through Steam or Oculus Store.
+
+Relation and Description: 
 A vr title that im taking main inspiration from with its gameplay and world building.
 this is to the official steam page, one of the two websites that the indie dev has the title available for purchase.
  \It is the game whose style is what is the min inspiration for my game, however i cant make a vr game like how this one is. The main mechanics I'm going for that this game is the system it has for progression. It has 5 floors with their own uniqe sets of monsters and each level has a unique color scheme. Each level you can find lore, coins, keys, and relics that give your player buffs for the duration of the run. There is also a shop located on each floor randomly. When the player dies they are sent back to the starting area and all coins, keys, and powerups are removed. There is a sort of collectibles menu that displayes all the lore and relics the player has found and which levels the player has discovered so far. This game has two weapons sets, a sword and dagger and a crosbow and short sword. However the crosbow and short sword is only unlocked after completing all 5 floors killing the final boss on floor 5. Also each time you kill the final boss you recieve a special currency that is used to permantely upgrade one of the weapons sets of your choosing. ost of these mechanics i want in my game. Since this is a vr title I am limited in the scope of how i can translate certain aspects. I really like these gameplay mechanics and its voxel structure. I fell like this will translate well to a sidescroll or top down game.
