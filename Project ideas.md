@@ -1,8 +1,8 @@
-#My project ideas
+# My project ideas
 
 
 ## Idea 1 original game
-Create my own dungeon crawler game. come up with my own game, create a story, characters, and a main objective to complete. Sort of a miny adventure game or some similar premise. Will have a start screen with settings and some accessability options. A save system to save the progress of the player, as well as a option for different saves for different playthorugh with different classes. However not level progress, only player stats and what the player has achieved on their runs, And will have a sign for how many times the player has entered and how many times they have returned. There will be 7 different stages with unique enimies with chests with potential food, and player buffs. Combat- the enemies will have fixed attack patterns that the player avoids or will attempt to create a mini ai to control the enemies to move in certaint ways and use attacks in different patterns.
+Create my own dungeon crawler game. come up with my own game, create a story, characters, and a main objective to complete. Sort of a miny adventure game or some similar premise. Will have a start screen with settings and some accessability options. A save system to save the progress of the player, as well as a option for different saves for different playthorugh with different classes. However not level progress, only player stats and what the player has achieved on their runs, And will have a sign for how many times the player has entered and how many times they have returned. There will be 7 different stages with unique enimies with chests with potential food, and player buffs. for upgrades the player will have no upgrade options only the weapons can be upgraded with the reward you get for clearing the whole dungeon. Combat- the enemies will have fixed attack patterns that the player avoids or will attempt to create a mini ai to control the enemies to move in certaint ways and use attacks in different patterns.
 
 
 
