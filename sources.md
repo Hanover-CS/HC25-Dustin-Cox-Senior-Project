@@ -25,3 +25,66 @@ gives me siilar vibes of the different stages with pre set enimies to fight, too
 
 ## https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/
 I like the room based system and the top down ish view. also a really good game.
+
+## Game Engines
+Unity with Roguelike Toolkit/Frameworks
+
+Description: While Unity is a general-purpose game engine, there are several toolkits and frameworks available for it that simplify the development of roguelikes. These include assets like Roguelike Toolkit and RogueSharp (for C#).
+
+Platform: Windows, Mac, Linux, Web, Mobile.
+
+Features: Extensive documentation, large community support, cross-platform deployment.
+
+Pros:
+Extremely versatile and supports 2D, 2.5D (semi-3D), and 3D games.
+Strong support for procedural generation, with numerous plugins and tools available.
+Large community and abundant resources, making it easier to find tutorials, assets, and support.
+Can export to multiple platforms (PC, Web, Consoles).
+Good support for animations, which will be useful for your enemies and bosses with different phases.
+
+Cons:
+Can be overkill for purely 2D games unless you plan to leverage its advanced features.
+
+Language: C# for scripting, Unity API is well-documented. Solid choice for object-oriented programming
+
+Framework/Library:
+Unity's Dungeon Architect which is great for procedural dungeons.
+
+Combat and Ai: Behavior Designer and Eerald Ai for implementing complex combat systems
+
+Visual stlye: 
+HAs the capabilities for 2D, 2.5D, and 3D.
+
+
+Rogue Engine
+Description: Rogue Engine is a simple, easy-to-use game engine designed specifically for creating roguelike games. It includes features like procedural map generation, turn-based mechanics, and inventory systems, which are essential for roguelikes.
+Platform: Windows, Mac, Linux.
+Features: Procedural generation, tile-based movement, turn-based gameplay, built-in systems for items and enemies.
+
+
+
+Rot.js
+Description: Rot.js (Roguelike Toolkit in JavaScript) is a JavaScript library designed to help developers create browser-based roguelike games. It's not a full-fledged game engine but provides many of the building blocks needed to create a roguelike, such as procedural map generation, pathfinding, and handling turn-based mechanics.
+Platform: Web (Browser-based).
+Features: Lightweight, easy to integrate into web projects, comes with utilities for maps, FOV (field of view), and other roguelike elements.
+
+
+Roguelike Development Kit (RLDK)
+Description: RLDK is a toolkit designed for creating roguelike games. It's not a full game engine but provides many of the core functionalities that a roguelike game needs, like procedural generation, turn-based mechanics, and tile-based systems.
+Platform: Windows, Mac, Linux.
+Features: Core roguelike systems, customizable, modular
+
+
+libtcod (The Doryen Library)
+Description: libtcod is a popular C/C++ library for developing roguelike games. It provides functionalities like field-of-view, pathfinding, and procedural map generation. While it's not a full engine, it's one of the most commonly used libraries for roguelike development.
+Platform: Cross-platform (C/C++, Python).
+Features: Extensive set of tools for roguelikes, supports multiple languages (C/C++, Python).
+
+
+Phaser: A popular framework for 2D games, easy to use, and well-documented.
+
+Three.js: Ideal for 3D games if you want more control over graphics.
+
+Babylon.js: Another powerful 3D engine that runs in the browser.
+
+Rot.js: Specifically designed for developing roguelike games in the browser.
