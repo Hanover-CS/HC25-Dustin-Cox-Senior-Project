@@ -82,6 +82,27 @@ Features: Extensive set of tools for roguelikes, supports multiple languages (C/
 
 
 Phaser: A popular framework for 2D games, easy to use, and well-documented.
+2D Game Engine:
+
+Phaser is primarily focused on 2D games, making it ideal for roguelikes, platformers, puzzles, and other 2D game types.
+It supports sprites, tilemaps, animations, audio, and particles to bring a game to life.
+Cross-Platform Support:
+
+Phaser games run in any modern web browser, supporting desktop and mobile browsers with no need for additional installations or plugins.
+Games can be packaged using tools like Cordova or Electron to run on mobile devices and desktops as standalone applications.
+Physics Systems:
+
+Phaser provides built-in physics engines like Arcade Physics (simple and efficient) and Matter.js (a more complex and realistic physics engine).
+You can create games with collision detection, gravity, velocity, and other real-world-like interactions.
+Animation:
+
+Phaser allows for smooth sprite animations through sprite sheets and frame-based animations.
+You can easily manage and control animations, including play, pause, and loop functions.
+Input Handling:
+
+Phaser supports a wide range of inputs including keyboard, mouse, touch, and gamepads, allowing you to target both desktop and mobile platforms.
+It provides easy-to-use APIs for managing inputs such as keypresses, mouse movements, or swipe gestures.
+
 
 Three.js: Ideal for 3D games if you want more control over graphics.
 
