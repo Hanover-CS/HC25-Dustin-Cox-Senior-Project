@@ -9,4 +9,34 @@ Fighting/healing/currency: Fighting will be live. Not turn based. The enimies wi
 
 Level Generation: The levels will have the same color pallet and basic structure throughout but the levels and the scattered things to find will be procedural. No two levels would ever look the same.
 
+## Similar Games available 
+
+Ancient Dungeon, a vr title I really enjoy playing. Where im taking my main inspiration from.[1].
+
+CryptRunner. A 3D rouge lite dungeon crawler[2].
+
+Slay the Spire.[3].
+
+The Binding of Issac[4].
+
+
+
+
+
+
+
+
+
+
+
+
+[1] https://store.steampowered.com/app/1125240/Ancient_Dungeon/
+
+[2] https://store.steampowered.com/app/1030410/Cryptrunner/\
+
+
+[3] https://store.steampowered.com/app/646570/Slay_the_Spire/
+
+[4] https://store.steampowered.com/app/250900/The_Binding_of_Isaac_Rebirth/
+
 
