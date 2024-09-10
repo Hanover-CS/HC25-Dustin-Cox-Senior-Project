@@ -108,4 +108,15 @@ Three.js: Ideal for 3D games if you want more control over graphics.
 
 Babylon.js: Another powerful 3D engine that runs in the browser.
 
-Rot.js: Specifically designed for developing roguelike games in the browser.
+Rot.js: Specifically designed for developing roguelike games in the browser. Useful for procedural generation
+
+Tiled Map Editor: tool for 2D tilemaps and epxoting them to phaser.
+
+Aseprite or Piskel: Pixel art tools for creating and animating 2d Sprites, Good for charater and enimy design.
+
+Sounds and Music:
+Freesound.org: Large database of free sound effects.
+
+OpenGameArt.org: source of free music, sound effects, and art.
+
+Howler.js: JavaScript libray that integrates well with phaser for controlling sound effects and background music.
