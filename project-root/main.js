@@ -1,8 +1,7 @@
 const config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    backgroundColor: '#3498db',  // Blue background
+    width: 1675,
+    height: 825,
     scene: {
         preload: preload,
         create: create,
@@ -13,13 +12,21 @@ const config = {
 const game = new Phaser.Game(config);
 
 function preload() {
-    // No assets needed for this test
+    this.load.image('MenuBackground', 'assets/MenuBackground.png');
 }
 
 function create() {
     console.log('Game is running!');
-    // You can also add some text for visual confirmation
-    this.add.text(400, 300, 'Hello, Phaser!', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+    
+    // Add background image
+    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'MenuBackground');
+    
+    // Position the text at the center of the top (horizontally centered, but close to the top)
+    const textY = 50;  // Position near the top of the screen
+    this.add.text(this.cameras.main.centerX, textY, 'Hello, Phaser!', { 
+        fontSize: '32px', 
+        fill: '#fff' 
+    }).setOrigin(0.5, 0);  // Center horizontally, but align vertically at the top
 }
 
 function update() {}
