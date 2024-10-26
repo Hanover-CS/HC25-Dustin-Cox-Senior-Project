@@ -13,6 +13,9 @@ const game = new Phaser.Game(config);
 
 function preload() {
     this.load.image('MenuBackground', 'assets/MenuBackground.png');
+    this.load.image('playButton', 'assets/playButton.png');
+    this.load.image('settingsButton', 'assets/settingsButton.png');
+    this.load.image('cursor', 'assets/cursor.png');
 }
 
 function create() {
@@ -36,7 +39,48 @@ function create() {
         fill: '#B7410E' // wethered color
     });
 
+    //buttons positions
+    const buttonX = this.cameras.main.centerX;
+    const playButtonY = 400; // Y position for the Play button
+    const settingsButtonY = 500; // Y position for the Settings button
+
+    // Create Play button
+    const playButton = this.add.image(buttonX, playButtonY, 'playButton').setInteractive().setOrigin(0.5, 0.5);
+    playButton.on('pointerdown', () => {
+        console.log('Play button clicked');
+        // Logic to start game scene
+    });
+
+    // Create Settings button
+    const settingsButton = this.add.image(buttonX, settingsButtonY, 'settingsButton').setInteractive().setOrigin(0.5, 0.5);
+    settingsButton.on('pointerdown', () => {
+        console.log('Settings button clicked');
+        // Logic to move to settings scene
+    });
+
+    // Add text on top of Play button
+    this.add.text(buttonX, playButtonY, 'Play', {
+        fontFamily: 'Caesar Dressing',
+        fontSize: '32px',
+        fill: '#FFFFFF' // White color for button text
+    }).setOrigin(0.5); // Center the text on the button
+
+    // Add text on top of Settings button
+    this.add.text(buttonX, settingsButtonY, 'Settings', {
+        fontFamily: 'Caesar Dressing',
+        fontSize: '32px',
+        fill: '#FFFFFF' // White color for button text
+    }).setOrigin(0.5); // Center the text on the button
+
+
+    // Add cursor
+    this.cursor = this.add.image(0, 0, 'cursor').setOrigin(0.5, 0.5).setVisible(true);
+
     
 }
 
-function update() {}
+function update() {
+    //update cursor position
+    this.cursor.x = this.input.x;
+    this.cursor.y = this.input.y;
+}
