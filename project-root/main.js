@@ -17,16 +17,26 @@ function preload() {
 
 function create() {
     console.log('Game is running!');
-    
+
     // Add background image
     this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'MenuBackground');
     
-    // Position the text at the center of the top (horizontally centered, but close to the top)
-    const textY = 50;  // Position near the top of the screen
-    this.add.text(this.cameras.main.centerX, textY, 'Hello, Phaser!', { 
-        fontSize: '32px', 
-        fill: '#fff' 
-    }).setOrigin(0.5, 0);  // Center horizontally, but align vertically at the top
+    // manually controlled position
+    const textX = 515; // X position of the text
+    const textY = 100; // Y position of the text
+    
+    //Black rectangle for text visability
+    const rectWidth = 725;  // Adjust the width to match your text length
+    const rectHeight = 90; // Adjust height based on font size
+    this.add.rectangle(textX + rectWidth / 2, textY + rectHeight / 2, rectWidth, rectHeight, 0x000000, 0.7);
+    //Game title text and font
+    const text = this.add.text(textX, textY, 'SEVEN DEPTHS', {
+        fontFamily: 'Caesar Dressing',
+        fontSize: '100px', 
+        fill: '#B7410E' // wethered color
+    });
+
+    
 }
 
 function update() {}
