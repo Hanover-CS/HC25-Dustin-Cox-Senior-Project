@@ -45,14 +45,18 @@ function create() {
     const settingsButtonY = 500; // Y position for the Settings button
 
     // Create Play button
-    const playButton = this.add.image(buttonX, playButtonY, 'playButton').setInteractive().setOrigin(0.5, 0.5);
+    const playButton = this.add.image(buttonX, playButtonY, 'playButton')
+        .setInteractive(new Phaser.Geom.Rectangle(20, 70, 300, 90), Phaser.Geom.Rectangle.Contains) // adjust dimensions as needed
+        .setOrigin(0.5, 0.5);
     playButton.on('pointerdown', () => {
         console.log('Play button clicked');
         // Logic to start game scene
     });
 
     // Create Settings button
-    const settingsButton = this.add.image(buttonX, settingsButtonY, 'settingsButton').setInteractive().setOrigin(0.5, 0.5);
+    const settingsButton = this.add.image(buttonX, settingsButtonY, 'settingsButton')
+        .setInteractive(new Phaser.Geom.Rectangle(20, 70, 300, 90), Phaser.Geom.Rectangle.Contains) // adjust dimensions as needed
+        .setOrigin(0.5, 0.5);
     settingsButton.on('pointerdown', () => {
         console.log('Settings button clicked');
         // Logic to move to settings scene
