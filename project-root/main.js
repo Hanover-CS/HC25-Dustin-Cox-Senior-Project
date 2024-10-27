@@ -16,6 +16,7 @@ function preload() {
     this.load.image('playButton', 'assets/playButton.png');
     this.load.image('settingsButton', 'assets/settingsButton.png');
     this.load.image('cursor', 'assets/cursor.png');
+    this.load.audio('MenuTheme', 'assets/MenuTheme.wav');
 }
 
 function create() {
@@ -24,6 +25,10 @@ function create() {
     // Add background image
     this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'MenuBackground');
     
+    //background menu music
+    const music = this.sound.add('MenuTheme', {loop: true});
+    music.play();
+
     // manually controlled position
     const textX = 515; // X position of the text
     const textY = 100; // Y position of the text
