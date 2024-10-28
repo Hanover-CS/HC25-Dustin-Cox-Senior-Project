@@ -17,6 +17,7 @@ function preload() {
     this.load.image('settingsButton', 'assets/settingsButton.png');
     this.load.image('cursor', 'assets/cursor.png');
     this.load.audio('MenuTheme', 'assets/MenuTheme.wav');
+    this.load.audio('buttonClick', 'assets/buttonClick.wav');  
 }
 
 function create() {
@@ -28,6 +29,9 @@ function create() {
     //background menu music
     const music = this.sound.add('MenuTheme', {loop: true});
     music.play();
+    
+    //button click sound
+    //this.clickSound = this.sound.add('clickSound');
 
     // manually controlled position
     const textX = 515; // X position of the text
@@ -54,6 +58,7 @@ function create() {
         .setInteractive(new Phaser.Geom.Rectangle(20, 70, 300, 90), Phaser.Geom.Rectangle.Contains) // adjust dimensions as needed
         .setOrigin(0.5, 0.5);
     playButton.on('pointerdown', () => {
+        //this.clickSound.play();
         console.log('Play button clicked');
         // Logic to start game scene
     });
@@ -63,6 +68,7 @@ function create() {
         .setInteractive(new Phaser.Geom.Rectangle(20, 70, 300, 90), Phaser.Geom.Rectangle.Contains) // adjust dimensions as needed
         .setOrigin(0.5, 0.5);
     settingsButton.on('pointerdown', () => {
+        //this.clickSound.play();
         console.log('Settings button clicked');
         // Logic to move to settings scene
     });
