@@ -31,7 +31,7 @@ function create() {
     music.play();
     
     //button click sound
-    //this.clickSound = this.sound.add('clickSound');
+    this.clickSound = this.sound.add('buttonClick');
 
     // manually controlled position
     const textX = 515; // X position of the text
@@ -58,7 +58,7 @@ function create() {
         .setInteractive(new Phaser.Geom.Rectangle(20, 70, 300, 90), Phaser.Geom.Rectangle.Contains) // adjust dimensions as needed
         .setOrigin(0.5, 0.5);
     playButton.on('pointerdown', () => {
-        //this.clickSound.play();
+        this.clickSound.play({ volume: 1 });
         console.log('Play button clicked');
         // Logic to start game scene
     });
@@ -68,7 +68,7 @@ function create() {
         .setInteractive(new Phaser.Geom.Rectangle(20, 70, 300, 90), Phaser.Geom.Rectangle.Contains) // adjust dimensions as needed
         .setOrigin(0.5, 0.5);
     settingsButton.on('pointerdown', () => {
-        //this.clickSound.play();
+        this.clickSound.play({ volume: 1 });
         console.log('Settings button clicked');
         // Logic to move to settings scene
     });
