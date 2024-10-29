@@ -38,7 +38,8 @@ class mainMenuScene extends Phaser.Scene {
             .on('pointerdown', () => {
                 this.clickSound.play();
                 console.log('Play button clicked');
-                // this.scene.start('GameScene'); // Uncomment once GameScene is set up
+                this.sys.game.music.stop();
+                this.scene.start('GameScene');
             });
         this.add.text(this.cameras.main.centerX, 400, 'Play', { fontFamily: 'Caesar Dressing', fontSize: '32px', fill: '#FFFFFF' }).setOrigin(0.5);
 
