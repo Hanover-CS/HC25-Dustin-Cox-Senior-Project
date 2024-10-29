@@ -103,7 +103,7 @@ class SettingsScene extends Phaser.Scene {
 
         closeButton.on('pointerdown', () => {
             this.scene.stop('SettingsScene');
-            //this.scene.resume('MainMenuScene'); // Ensure your main menu scene key matches
+            this.scene.resume('mainMenuScene'); // Ensure your main menu scene key matches
         });
     }
 }
