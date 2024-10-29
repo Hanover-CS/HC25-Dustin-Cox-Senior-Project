@@ -1,11 +1,17 @@
+
+import SettingsScene from './SettingsScene.js';
+
 const config = {
     type: Phaser.AUTO,
     width: 1675,
     height: 825,
-    scene: {
+    scene: [{
         preload: preload,
         create: create,
         update: update
+    }, SettingsScene],
+    audio: {
+        disableWebAudio: false
     }
 };
 
@@ -27,8 +33,8 @@ function create() {
     this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'MenuBackground');
     
     //background menu music
-    const music = this.sound.add('MenuTheme', {loop: true});
-    music.play();
+    this.sys.game.music = this.sound.add('MenuTheme', { loop: true });
+    this.sys.game.music.play();
     
     //button click sound
     this.clickSound = this.sound.add('buttonClick');
@@ -70,6 +76,8 @@ function create() {
     settingsButton.on('pointerdown', () => {
         this.clickSound.play({ volume: 1 });
         console.log('Settings button clicked');
+        this.scene.launch('SettingsScene');
+        this.scene.pause();
         // Logic to move to settings scene
     });
 
