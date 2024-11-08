@@ -4,6 +4,8 @@
 import mainMenuScene from './mainMenuScene.js';
 import SettingsScene from './SettingsScene.js';
 import GameScene from './GameScene.js';
+import HubRoom from './HubRoom.js'
+
 
 const config = {
     type: Phaser.AUTO,
@@ -15,7 +17,7 @@ const config = {
             debug: false
         }
     },
-    scene: [mainMenuScene, SettingsScene, GameScene],
+    scene: [HubRoom, mainMenuScene, SettingsScene, GameScene],
     audio: {
         disableWebAudio: false
     }
