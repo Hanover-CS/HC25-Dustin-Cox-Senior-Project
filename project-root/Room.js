@@ -1,43 +1,155 @@
 // Room.js
-class Room {
-    constructor(scene, width, height, x, y, roomType) {
-        this.scene = scene;
-        this.width = width;
-        this.height = height;
-        this.x = x;
-        this.y = y;
-        this.roomType = roomType;
-
-        this.createRoom();
+class Room extends Phaser.Scene {
+    constructor(parent) {
+        super({ key: 'Room' });
+        this.parent = parent;
     }
 
-    createRoom() {
-        this.floor = this.scene.add.image(this.x, this.y, 'floor').setDisplaySize(this.width, this.height);
-        this.walls = this.scene.physics.add.staticGroup();
-        this.addWalls();
+    preload() {
+        this.load.image('floor', 'assets/floor.png');
+        this.load.image('wall', 'assets/wall.jpg');
+        this.load.image('player', 'assets/placeHolder.png');
     }
 
-    addWalls() {
-        const wallThickness = 20;
+    create() {
+        const worldWidth = 5000;
+        const worldHeight = 5000;
+        const roomWidth = 1200;
+        const roomHeight = 1200;
 
-        // Add walls to the room
-        this.addWall(this.x - this.width / 2, this.y, this.width, wallThickness * 2); // Top
-        this.addWall(this.x + this.width / 2, this.y, this.width, wallThickness * 2); // Bottom
-        this.addWall(this.x, this.y - this.height / 2, wallThickness * 2, this.height); // Left
-        this.addWall(this.x, this.y + this.height / 2, wallThickness * 2, this.height); // Right
+        this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
+        this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
+        this.cameras.main.setZoom(0.5);
+
+        // Spawn player with space around them in the room's center
+        this.player = this.physics.add.sprite(worldWidth / 2, worldHeight / 2, 'player');
+        this.player.setCollideWorldBounds(false);
+        this.player.setDepth(1);
+
+        this.cameras.main.startFollow(this.player);
+
+        this.cursors = this.input.keyboard.addKeys({
+            up: Phaser.Input.Keyboard.KeyCodes.W,
+            down: Phaser.Input.Keyboard.KeyCodes.S,
+            left: Phaser.Input.Keyboard.KeyCodes.A,
+            right: Phaser.Input.Keyboard.KeyCodes.D
+        });
+
+        // Create room layout with hallways spread further out
+        this.createRoomLayout(worldWidth / 2, worldHeight / 2, roomWidth, roomHeight);
+
+        this.physics.add.collider(this.player, this.walls);
     }
 
-    addWall(x, y, width, height) {
-        const wall = this.scene.add.tileSprite(x, y, width, height, 'wall');
-        this.walls.add(wall);
+    createRoomLayout(centerX, centerY, roomWidth, roomHeight) {
+        this.add.image(centerX, centerY, 'floor')
+            .setDisplaySize(roomWidth, roomHeight)
+            .setOrigin(0.5)
+            .setDepth(0);
+
+        this.walls = this.physics.add.staticGroup();
+        const wallTileSize = 40;
+
+        this.createRoomWalls(centerX, centerY, roomWidth, roomHeight, wallTileSize);
+        this.createSpreadOutHallways(centerX, centerY, roomWidth, roomHeight, wallTileSize);
     }
 
-    // Method to add a doorway
-    addDoorway(doorX, doorY) {
-        const doorWidth = 50, doorHeight = 50;
-        const doorway = this.scene.add.rectangle(doorX, doorY, doorWidth, doorHeight, 0x000000);
-        doorway.setInteractive();
-        return doorway;
+    createRoomWalls(centerX, centerY, roomWidth, roomHeight, wallTileSize) {
+        for (let y = centerY - roomHeight / 2; y <= centerY + roomHeight / 2; y += wallTileSize) {
+            this.walls.create(centerX - roomWidth / 2, y, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setSize(wallTileSize, wallTileSize)
+                .setOrigin(1, 0.5)
+                .refreshBody();
+            this.walls.create(centerX + roomWidth / 2, y, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setSize(wallTileSize, wallTileSize)
+                .setOrigin(0, 0.5)
+                .refreshBody();
+        }
+
+        for (let x = centerX - roomWidth / 2; x <= centerX + roomWidth / 2; x += wallTileSize) {
+            this.walls.create(x, centerY - roomHeight / 2, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setOrigin(0.5, 1)
+                .refreshBody();
+            this.walls.create(x, centerY + roomHeight / 2, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setOrigin(0.5, 0)
+                .refreshBody();
+        }
+    }
+
+    createSpreadOutHallways(centerX, centerY, roomWidth, roomHeight, wallTileSize) {
+        // Left vertical hallway - shifted further left from the center
+        for (let y = -200; y <= 200; y += wallTileSize) {
+            this.walls.create(centerX - 300, centerY + y, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+
+        // Right vertical hallway - shifted further right from the center
+        for (let y = -200; y <= 200; y += wallTileSize) {
+            this.walls.create(centerX + 300, centerY + y, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+
+        // Top horizontal hallway - shifted further up from the center
+        for (let x = -400; x <= 400; x += wallTileSize) {
+            this.walls.create(centerX + x, centerY - 300, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+
+        // Bottom horizontal hallway - shifted further down from the center
+        for (let x = -400; x <= 400; x += wallTileSize) {
+            this.walls.create(centerX + x, centerY + 300, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+
+        // Additional L-shaped hallways, even further from the center for extra space
+        // Upper right L-shape
+        for (let x = 0; x <= 200; x += wallTileSize) {
+            this.walls.create(centerX + 450, centerY - 450 + x, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+        for (let y = 0; y <= 150; y += wallTileSize) {
+            this.walls.create(centerX + 350 + y, centerY - 450, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+
+        // Lower left L-shape
+        for (let x = 0; x <= 200; x += wallTileSize) {
+            this.walls.create(centerX - 450, centerY + 350 + x, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+        for (let y = 0; y <= 150; y += wallTileSize) {
+            this.walls.create(centerX - 350 - y, centerY + 450, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .refreshBody();
+        }
+    }
+
+    update() {
+        const speed = 160;
+        this.player.setVelocity(0);
+
+        if (this.cursors.left.isDown) {
+            this.player.setVelocityX(-speed);
+        } else if (this.cursors.right.isDown) {
+            this.player.setVelocityX(speed);
+        }
+
+        if (this.cursors.up.isDown) {
+            this.player.setVelocityY(-speed);
+        } else if (this.cursors.down.isDown) {
+            this.player.setVelocityY(speed);
+        }
     }
 }
 

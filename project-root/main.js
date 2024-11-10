@@ -4,7 +4,8 @@
 import mainMenuScene from './mainMenuScene.js';
 import SettingsScene from './SettingsScene.js';
 import GameScene from './GameScene.js';
-import HubRoom from './HubRoom.js'
+import HubRoom from './HubRoom.js';
+import Room from './Room.js';
 
 
 const config = {
@@ -17,7 +18,7 @@ const config = {
             debug: false
         }
     },
-    scene: [HubRoom, mainMenuScene, SettingsScene, GameScene],
+    scene: [Room, HubRoom, mainMenuScene, SettingsScene, GameScene],
     audio: {
         disableWebAudio: false
     }
