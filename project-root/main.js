@@ -7,6 +7,7 @@ import GameScene from './GameScene.js';
 import HubRoom from './HubRoom.js';
 import Room from './Room.js';
 import RegularRoom from './RegularRoom.js';
+import ShopRoom from './ShopRoom.js';
 
 
 const config = {
@@ -19,7 +20,7 @@ const config = {
             debug: false
         }
     },
-    scene: [RegularRoom, Room, HubRoom, mainMenuScene, SettingsScene, GameScene],
+    scene: [ShopRoom, RegularRoom, Room, HubRoom, mainMenuScene, SettingsScene, GameScene],
     audio: {
         disableWebAudio: false
     }

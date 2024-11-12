@@ -1,6 +1,7 @@
 // RoomManager.js
 import RegularRoom from './RegularRoom.js';
 import HubRoom from './HubRoom.js';
+import Room from './Room';
 import ShopRoom from './ShopRoom.js';
 import BossRoom from './BossRoom.js';
 
