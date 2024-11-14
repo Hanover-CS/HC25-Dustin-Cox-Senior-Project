@@ -8,6 +8,7 @@ import HubRoom from './HubRoom.js';
 import Room from './Room.js';
 import RegularRoom from './RegularRoom.js';
 import ShopRoom from './ShopRoom.js';
+import BossRoom from './BossRoom.js';
 
 
 const config = {
@@ -20,7 +21,7 @@ const config = {
             debug: false
         }
     },
-    scene: [ShopRoom, RegularRoom, Room, HubRoom, mainMenuScene, SettingsScene, GameScene],
+    scene: [BossRoom, ShopRoom, RegularRoom, Room, HubRoom, mainMenuScene, SettingsScene, GameScene],
     audio: {
         disableWebAudio: false
     }
