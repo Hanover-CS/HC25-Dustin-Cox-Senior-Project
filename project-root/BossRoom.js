@@ -92,7 +92,7 @@ class BossRoom extends Phaser.Scene {
         // Static group for rocks
         this.rocks = this.physics.add.staticGroup();
 
-        // Array of rock positions (example positions around the room)
+        // Array of rock positions (several positions around the room)
         const rockPositions = [
             { x: centerX - 300, y: centerY - 250 },
             { x: centerX + 300, y: centerY - 250 },
@@ -111,7 +111,7 @@ class BossRoom extends Phaser.Scene {
                 .refreshBody();
         });
     }
-
+    //player movement update/speed
     update() {
         const speed = 160;
         this.player.setVelocity(0);
