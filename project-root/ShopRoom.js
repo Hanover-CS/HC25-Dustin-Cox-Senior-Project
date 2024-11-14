@@ -1,3 +1,4 @@
+// This file sets up the shop room layout and will be the room where transactions will occuer
 class ShopRoom extends Phaser.Scene {
     constructor() {
         super({ key: 'ShopRoom' });

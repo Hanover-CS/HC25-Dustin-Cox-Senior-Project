@@ -1,5 +1,6 @@
 
 // main.js
+// The main file that sets up the game and its contents
 
 import mainMenuScene from './mainMenuScene.js';
 import SettingsScene from './SettingsScene.js';

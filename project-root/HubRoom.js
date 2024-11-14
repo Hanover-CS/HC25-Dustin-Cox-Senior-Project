@@ -1,4 +1,6 @@
 // HubRoom.js
+//The main home of the player, this is where the player starts and returns too
+//where the player will be able to eventually see what they have collected and upgrade their weapon
 class HubRoom extends Phaser.Scene {
     constructor(parent) {
         super({ key: 'HubRoom' });

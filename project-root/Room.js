@@ -1,4 +1,5 @@
 // Room.js
+// this is one file of several that cretes a room and sets up its layout.
 class Room extends Phaser.Scene {
     constructor(parent) {
         super({ key: 'Room' });

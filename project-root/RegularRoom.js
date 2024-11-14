@@ -1,3 +1,4 @@
+//This is another file that creates several rooms. There are 3 different rooms that will be chosen at random to display
 class RegularRoom extends Phaser.Scene {
     constructor() {
         super({ key: 'RegularRoom' });

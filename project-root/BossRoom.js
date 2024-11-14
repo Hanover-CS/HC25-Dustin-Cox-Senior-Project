@@ -1,4 +1,6 @@
 // BossRoom.js
+// This is the file that creates the boss room layout and where the player
+// will fight the boss before returning to the hub
 class BossRoom extends Phaser.Scene {
     constructor(parent) {
         super({ key: 'BossRoom' });

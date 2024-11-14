@@ -1,4 +1,5 @@
 // MainMenuScene.js
+// Scene that creates the main menu screen where the title and settings for the main menu are available
 
 class mainMenuScene extends Phaser.Scene {
     constructor() {

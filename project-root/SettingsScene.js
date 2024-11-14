@@ -1,4 +1,5 @@
 // SettingsScene.js
+//Scene that appears adn handles changing the volume of the menu music
 
 
 class SettingsScene extends Phaser.Scene {

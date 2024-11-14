@@ -1,4 +1,6 @@
-
+//This file is the scene that displays and loads the hubroom and marks the beginning of the game
+//This is where the player starts and can reflect on previous runs
+//
 import HubRoom from './HubRoom.js';
 
 class GameScene extends Phaser.Scene {

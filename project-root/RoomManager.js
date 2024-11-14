@@ -1,4 +1,5 @@
 // RoomManager.js
+//The place that handles the room transitions and door generation.
 import RegularRoom from './RegularRoom.js';
 import HubRoom from './HubRoom.js';
 import Room from './Room';
