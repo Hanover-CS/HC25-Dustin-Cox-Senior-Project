@@ -85,25 +85,59 @@ class RegularRoom extends Phaser.Scene {
     }
 
     createSecondRoomLayout(centerX, centerY, roomWidth, roomHeight) {
+        // Add floor to fill the room area
         this.add.image(centerX, centerY, 'floor').setDisplaySize(roomWidth, roomHeight).setOrigin(0.5).setDepth(0);
+    
+        // Graphics for central hole in the floor
         const graphics = this.add.graphics();
         graphics.fillStyle(0x000000, 1);
-
         const holeSize = 800;
         graphics.fillRect(centerX - holeSize / 2, centerY - holeSize / 2, holeSize, holeSize);
         graphics.setDepth(0);
-
+    
+        // Bridges over the central hole
         const bridgeWidth = holeSize;
         const bridgeHeight = 40;
-
+    
         const horizontalBridge = this.add.tileSprite(centerX, centerY, bridgeWidth, bridgeHeight, 'floor');
-        horizontalBridge.setTileScale(1, bridgeHeight / 40); // Tile scaling for no stretching
-        horizontalBridge.setDepth(1); // Depth just below the player
-
+        horizontalBridge.setTileScale(1, bridgeHeight / 40);
+        horizontalBridge.setDepth(1);
+    
         const verticalBridge = this.add.tileSprite(centerX, centerY, bridgeHeight, bridgeWidth, 'floor');
-        verticalBridge.setTileScale(bridgeWidth / 40, 1); // Tile scaling for no stretching
-        verticalBridge.setDepth(1); // Depth just below the player
+        verticalBridge.setTileScale(bridgeWidth / 40, 1);
+        verticalBridge.setDepth(1);
+    
+        // Create walls around the room
+        const wallTileSize = 40;
+        this.walls = this.physics.add.staticGroup();
+    
+        // Left and right walls
+        for (let y = centerY - roomHeight / 2; y <= centerY + roomHeight / 2; y += wallTileSize) {
+            this.walls.create(centerX - roomWidth / 2, y, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setSize(wallTileSize, wallTileSize)
+                .setOrigin(1, 0.5)
+                .refreshBody();
+            this.walls.create(centerX + roomWidth / 2, y, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setSize(wallTileSize, wallTileSize)
+                .setOrigin(0, 0.5)
+                .refreshBody();
+        }
+    
+        // Top and bottom walls
+        for (let x = centerX - roomWidth / 2; x <= centerX + roomWidth / 2; x += wallTileSize) {
+            this.walls.create(x, centerY - roomHeight / 2, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setOrigin(0.5, 1)
+                .refreshBody();
+            this.walls.create(x, centerY + roomHeight / 2, 'wall')
+                .setDisplaySize(wallTileSize, wallTileSize)
+                .setOrigin(0.5, 0)
+                .refreshBody();
+        }
     }
+    
 
     createThirdRoomLayout(centerX, centerY, roomWidth, roomHeight) {
         this.add.image(centerX, centerY, 'floor').setDisplaySize(roomWidth, roomHeight).setOrigin(0.5).setDepth(0);

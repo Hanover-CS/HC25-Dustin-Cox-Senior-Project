@@ -21,7 +21,7 @@ const config = {
             debug: false
         }
     },
-    scene: [BossRoom, ShopRoom, RegularRoom, Room, HubRoom, mainMenuScene, SettingsScene, GameScene],
+    scene: [RegularRoom, HubRoom, BossRoom, ShopRoom, Room, mainMenuScene, SettingsScene, GameScene],
     audio: {
         disableWebAudio: false
     }
