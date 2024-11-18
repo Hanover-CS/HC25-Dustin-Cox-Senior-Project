@@ -1,0 +1,57 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Game Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Copy project
+      run: |
+        mkdir -p outputdir/app
+        cp *.js outputdir/app
+        cp *.html outputdir/app
+        cp assets outputdir/app
+
+    - name: setup pages
+      uses: actions/configure-pages@v5
+
+    - name: Build docs
+      uses: actions/jekyll-build-pages@v1
+      with:
+          source: docs
+          destination: outputdir/docs
+
+    - name: upload build files
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./outputdir
+
+  deploy:
+    name: Deploy
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.output.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Deploy pages
+        uses: actions/deploy-pages@v4
+        id: deployment
+    
+    
+    
+    
