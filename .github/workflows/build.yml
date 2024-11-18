@@ -17,7 +17,7 @@ jobs:
     - name: Copy project
       run: |
         mkdir -p outputdir/app
-        cp project-root outputdir/app
+        cp -r project-root outputdir/app
         
 
     - name: setup pages
