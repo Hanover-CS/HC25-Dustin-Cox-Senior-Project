@@ -17,9 +17,8 @@ jobs:
     - name: Copy project
       run: |
         mkdir -p outputdir/app
-        cp *.js outputdir/app
-        cp *.html outputdir/app
-        cp assets outputdir/app
+        cp project-root outputdir/app
+        
 
     - name: setup pages
       uses: actions/configure-pages@v5
