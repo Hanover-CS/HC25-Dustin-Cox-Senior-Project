@@ -2,6 +2,7 @@
 //This is where the player starts and can reflect on previous runs
 //
 import HubRoom from "./HubRoom.js";
+import RoomManager from "./RoomManager.js";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -15,8 +16,9 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.roomManager = new RoomManager(this);
     // Start with HubRoom as the first room
-    this.scene.launch("HubRoom", { gameScene: this });
+    this.scene.launch("HubRoom", { gameScene: this, roomManager: this.roomManager });
 
     // Initialize player input controls
     this.keys = this.input.keyboard.addKeys({

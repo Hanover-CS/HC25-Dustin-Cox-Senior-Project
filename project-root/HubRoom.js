@@ -1,10 +1,15 @@
 // HubRoom.js
-//The main home of the player, this is where the player starts and returns too
-//where the player will be able to eventually see what they have collected and upgrade their weapon
+// The main home of the player, this is where the player starts and returns to
+// where the player will be able to eventually see what they have collected and upgrade their weapon
+
 class HubRoom extends Phaser.Scene {
-  constructor(parent) {
+  constructor() {
     super({ key: "HubRoom" });
-    this.parent = parent;
+  }
+
+  init(data) {
+    this.gameScene = data.gameScene;
+    this.roomManager = data.roomManager;
   }
 
   preload() {
@@ -13,7 +18,7 @@ class HubRoom extends Phaser.Scene {
     this.load.image("player", "assets/placeHolder.png");
   }
 
-  create() {
+  create() {  // Default to center of HubRoom if no position is passed
     const worldWidth = 5000; // Overall world width for free movement and expansion
     const worldHeight = 5000; // Overall world height
 
@@ -31,7 +36,7 @@ class HubRoom extends Phaser.Scene {
     const roomCenterX = worldWidth / 2;
     const roomCenterY = worldHeight / 2;
 
-    // Create the player in the center of the initial room
+    // Create the player at the given position (by default, at the center of HubRoom)
     this.player = this.physics.add.sprite(roomCenterX, roomCenterY, "player");
     this.player.setCollideWorldBounds(false); // Remove collision with world bounds for free movement
 
@@ -49,15 +54,21 @@ class HubRoom extends Phaser.Scene {
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
     });
+  
 
     // Call function to create the room layout
     this.createRoom(roomCenterX, roomCenterY, roomWidth, roomHeight);
 
     // Set up collisions with walls
     this.physics.add.collider(this.player, this.walls); // Make player collide with walls
+
+    // Create doorways for transitions (only right door for HubRoom)
+    this.createDoorways(worldWidth / 2, worldHeight / 2, roomWidth, roomHeight);
   }
 
   createRoom(centerX, centerY, roomWidth, roomHeight) {
+    console.log("Room is created")
+    console.log(centerX, centerY, roomWidth, roomHeight);
     // Add floor centered in the room
     this.add
       .image(centerX, centerY, "floor")
@@ -110,9 +121,6 @@ class HubRoom extends Phaser.Scene {
         .setDepth(0)
         .refreshBody();
     }
-
-    // Create a simple rectangle doorway
-    this.createDoorways(centerX, centerY, roomWidth, roomHeight);
   }
 
   createDoorways(centerX, centerY, roomWidth, roomHeight) {
@@ -123,12 +131,22 @@ class HubRoom extends Phaser.Scene {
       .setDepth(0);
     this.physics.add.existing(this.doorRight, true); // Make it a static body
 
-    // Add overlap for scene transition
-    if (this.player && this.doorRight) {
-      this.physics.add.overlap(this.player, this.doorRight, () => {
-        this.scene.start("RegularRoom");
-      });
-    }
+    // Add overlap for scene transition when player enters the right door
+    this.physics.add.overlap(
+      this.player,
+      this.doorRight,
+      () => {
+        console.log("Player is transitioning to the next room...");
+        if (this.roomManager) {
+          this.roomManager.handleTransition(this.player, "right");
+        } else {
+          console.error("RoomManager is not defined!");
+        }
+      },
+      null,
+      this
+    );
+    
   }
 
   update() {

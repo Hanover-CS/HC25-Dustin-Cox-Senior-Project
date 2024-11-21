@@ -1,79 +1,77 @@
 // RoomManager.js
-//The place that handles the room transitions and door generation.
+// Handles room transitions and door generation.
 
 class RoomManager {
   constructor(scene) {
+    console.log("RoomManager created");
     this.scene = scene;
-    this.currentRoom = "GameScene"; // Default starting room
+    this.roomSequence = ["HubRoom", "RegularRoom", "Room", "RegularRoom", "RegularRoom", "RegularRoom", "Room", "ShopRoom", "BossRoom"]; // Linear sequence
+    this.currentRoomIndex = 0; // Start at the first room
+    this.entryPoint = 'right';
   }
 
-  enterRoom(roomKey, entryPointKey) {
-    if (this.scene.scene.isActive(roomKey)) return;
+  // Enter the next room in sequence
+  enterNextRoom(entryPointKey = "right") {
+    if (this.currentRoomIndex >= this.roomSequence.length - 1) {
+      console.log("Returning to the Hub");
+      this.currentRoomIndex = 0;
+    } else {
+      this.currentRoomIndex++;
+    }
+    
 
-    const playerPosition = this.getEntryPoint(roomKey, entryPointKey);
+    const nextRoomKey = this.roomSequence[this.currentRoomIndex];
+    const playerPosition = this.getEntryPoint(nextRoomKey, entryPointKey) || { x: 500, y: 500};
 
-    // Stop the current room and start the new one, passing entry point data
-    this.scene.scene.stop(this.currentRoom);
-    this.scene.scene.start(roomKey, {
-      x: playerPosition.x,
-      y: playerPosition.y,
-    });
-
-    // Update the current room to the new one
-    this.currentRoom = roomKey;
+    const previousRoomKey = this.roomSequence[this.currentRoomIndex - 1];
+    if (previousRoomKey && this.scene.scene.isActive(previousRoomKey)) {
+      this.scene.scene.stop(previousRoomKey);
+    }
+    
+    if (this.scene.scene.get(nextRoomKey)) {
+      console.log(`Transitioning to ${nextRoomKey} at position`, playerPosition);
+      this.scene.scene.start(nextRoomKey, playerPosition);
+    } else {
+      console.error(`Scene ${nextRoomKey} does not exist.`);
+    }
   }
 
+  // Define entry points
   getEntryPoint(roomKey, entryPointKey) {
     const entryPoints = {
-      GameScene: {
-        top: { x: 500, y: 50 },
-        bottom: { x: 500, y: 950 },
-        left: { x: 50, y: 500 },
-        right: { x: 950, y: 500 },
+      HubRoom: { 
+        right: { x: 950, y: 500 } // Only a right door for HubRoom
       },
-      ShopRoom: {
-        top: { x: 500, y: 50 },
-        bottom: { x: 500, y: 950 },
-        left: { x: 50, y: 500 },
-        right: { x: 950, y: 500 },
+      RegularRoom: { 
+        left: { x: 50, y: 500 }, // Left door for RegularRoom
+        right: { x: 950, y: 500 } // Right door for RegularRoom
       },
-      BossRoom: {
-        top: { x: 500, y: 50 },
-        bottom: { x: 500, y: 950 },
-        left: { x: 50, y: 500 },
-        right: { x: 950, y: 500 },
+      Room: { 
+        left: { x: 50, y: 500 }, // Left door for Room
+        right: { x: 950, y: 500 } // Right door for Room
+      },
+      ShopRoom: { 
+        left: { x: 50, y: 500 }, // Left door for ShopRoom
+        right: { x: 950, y: 500 } // Right door for ShopRoom
+      },
+      BossRoom: { 
+        left: { x: 50, y: 500 }, // Left door for BossRoom
+        right: { x: 950, y: 500 } // Right door for BossRoom
       },
     };
 
     return entryPoints[roomKey][entryPointKey];
   }
 
-  handleTransition(player) {
-    const playerX = player.x;
-    const playerY = player.y;
-    const bounds = this.scene.physics.world.bounds;
-
-    // Example transition conditions based on player position
-    if (this.currentRoom === "GameScene") {
-      if (playerX > bounds.width - 50) {
-        // Right edge transition to ShopRoom
-        this.enterRoom("ShopRoom", "left");
-      } else if (playerY < 50) {
-        // Top edge transition to BossRoom
-        this.enterRoom("BossRoom", "bottom");
-      }
-    } else if (this.currentRoom === "ShopRoom") {
-      if (playerX < 50) {
-        // Left edge transition back to GameScene
-        this.enterRoom("GameScene", "right");
-      }
-    } else if (this.currentRoom === "BossRoom") {
-      if (playerY > bounds.height - 50) {
-        // Bottom edge transition back to GameScene
-        this.enterRoom("GameScene", "top");
-      }
+  // No dynamic transition, handle directly through sequence
+  handleTransition(player, entryPointKey = "right") {
+    if (this.currentRoomIndex < this.roomSequence.length - 1) {
+      this.enterNextRoom(entryPointKey);
+    } else {
+      console.log("No further rooms to transition to.");
     }
   }
 }
 
 export default RoomManager;
+

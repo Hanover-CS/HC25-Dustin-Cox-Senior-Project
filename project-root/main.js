@@ -9,6 +9,7 @@ import Room from "./Room.js";
 import RegularRoom from "./RegularRoom.js";
 import ShopRoom from "./ShopRoom.js";
 import BossRoom from "./BossRoom.js";
+import RoomManager from "./RoomManager.js";
 
 const config = {
   type: Phaser.AUTO,
@@ -21,14 +22,14 @@ const config = {
     },
   },
   scene: [
-    RegularRoom,
-    HubRoom,
-    BossRoom,
-    ShopRoom,
-    Room,
     mainMenuScene,
     SettingsScene,
     GameScene,
+    HubRoom,
+    RegularRoom,
+    Room,
+    ShopRoom,
+    BossRoom,
   ],
   audio: {
     disableWebAudio: false,

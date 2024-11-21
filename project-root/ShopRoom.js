@@ -9,8 +9,8 @@ class ShopRoom extends Phaser.Scene {
     this.load.image("floor", "assets/floor.png");
     this.load.image("wall", "assets/wall.jpg");
     this.load.image("player", "assets/placeHolder.png");
-    this.load.image("box", "assets/box.png"); // Add the box asset
-    this.load.image("counter", "assets/counter.png"); // Add the counter image
+    this.load.image("box", "assets/box.png");
+    this.load.image("counter", "assets/counter.png");
   }
 
   create() {
@@ -59,6 +59,9 @@ class ShopRoom extends Phaser.Scene {
 
     // Add the counter
     this.addCounter(roomCenterX, roomCenterY, roomWidth, roomHeight);
+
+    // Add the two exits
+    this.addExits(roomCenterX, roomCenterY, roomWidth, roomHeight);
   }
 
   createRoom(centerX, centerY, roomWidth, roomHeight) {
@@ -163,6 +166,33 @@ class ShopRoom extends Phaser.Scene {
 
     // Enable collision between the player and the counter
     this.physics.add.collider(this.player, this.counter);
+  }
+
+  addExits(centerX, centerY, roomWidth, roomHeight) {
+    // Create entrance door (leading to RegularRoom)
+    const entranceX = centerX - roomWidth / 2 + 50;
+    const entranceY = centerY;
+    this.createDoor(entranceX, entranceY, "RegularRoom", "Entrance");
+
+    // Create exit door (leading to NextRoom)
+    const exitX = centerX + roomWidth / 2 - 50;
+    const exitY = centerY;
+    this.createDoor(exitX, exitY, "NextRoom", "Exit");
+  }
+
+  createDoor(x, y, targetScene, label) {
+    const door = this.add.rectangle(x, y, 20, 100, 0x00ff00); // Green door
+    this.physics.add.existing(door, true);
+
+    const doorLabel = this.add.text(x - 40, y - 10, label, {
+      fontSize: "16px",
+      fill: "#ffffff",
+    });
+    doorLabel.setDepth(1);
+
+    this.physics.add.overlap(this.player, door, () => {
+      this.scene.start(targetScene);
+    });
   }
 
   update() {

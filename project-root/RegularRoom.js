@@ -4,6 +4,7 @@ import RoomManager from "./RoomManager.js";
 class RegularRoom extends Phaser.Scene {
   constructor() {
     super({ key: "RegularRoom" });
+    this.roomSequence = []; // To track the sequence of rooms
   }
 
   preload() {
@@ -12,7 +13,8 @@ class RegularRoom extends Phaser.Scene {
     this.load.image("player", "assets/placeHolder.png");
   }
 
-  create() {
+  create(data) {
+    const { previousRoom, sequenceIndex = 0 } = data || {};
     const worldWidth = 5000;
     const worldHeight = 5000;
     const roomWidth = 1200;
@@ -27,7 +29,7 @@ class RegularRoom extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(roomCenterX, roomCenterY, "player");
     this.player.setCollideWorldBounds(false);
-    this.player.setDepth(2); // Player depth to appear above all room elements
+    this.player.setDepth(2);
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.centerOn(roomCenterX, roomCenterY);
@@ -39,6 +41,7 @@ class RegularRoom extends Phaser.Scene {
       right: Phaser.Input.Keyboard.KeyCodes.D,
     });
 
+    // Randomly choose one of the three room layouts
     const roomType = Math.floor(Math.random() * 3);
     switch (roomType) {
       case 0:
@@ -62,7 +65,65 @@ class RegularRoom extends Phaser.Scene {
         break;
     }
 
+    // Create doors with dynamic transitions
+    this.createDynamicDoors(
+      roomCenterX,
+      roomCenterY,
+      roomWidth,
+      roomHeight,
+      sequenceIndex,
+      previousRoom,
+    );
+
     this.physics.add.collider(this.player, this.walls);
+  }
+
+  createDynamicDoors(centerX, centerY, roomWidth, roomHeight, sequenceIndex, previousRoom) {
+    const doors = this.physics.add.staticGroup();
+
+    // Left Door
+    const leftDoorX = centerX - roomWidth / 2 + 50;
+    const leftDoorY = centerY;
+    const leftDoor = doors.create(leftDoorX, leftDoorY, null).setSize(20, 100).setOrigin(0.5, 0.5).setVisible(false);
+    this.physics.add.existing(leftDoor, true);
+
+    // Right Door
+    const rightDoorX = centerX + roomWidth / 2 - 50;
+    const rightDoorY = centerY;
+    const rightDoor = doors.create(rightDoorX, rightDoorY, null).setSize(20, 100).setOrigin(0.5, 0.5).setVisible(false);
+    this.physics.add.existing(rightDoor, true);
+
+    const exitLabelLeft = this.add.text(leftDoorX - 40, leftDoorY - 10, "Left Door", { fontSize: "16px", fill: "#ffffff" });
+    const exitLabelRight = this.add.text(rightDoorX - 40, rightDoorY - 10, "Right Door", { fontSize: "16px", fill: "#ffffff" });
+    exitLabelLeft.setDepth(1);
+    exitLabelRight.setDepth(1);
+
+    // Define door behavior based on sequence
+    if (sequenceIndex === 0) {
+      // First Room
+      this.physics.add.overlap(this.player, leftDoor, () => {
+        this.scene.start("Room"); // Go back to the initial "Room"
+      });
+      this.physics.add.overlap(this.player, rightDoor, () => {
+        this.scene.start("RegularRoom", { previousRoom: this, sequenceIndex: sequenceIndex + 1 });
+      });
+    } else if (sequenceIndex === 1) {
+      // Second Room
+      this.physics.add.overlap(this.player, leftDoor, () => {
+        this.scene.start("RegularRoom", { previousRoom, sequenceIndex: sequenceIndex - 1 });
+      });
+      this.physics.add.overlap(this.player, rightDoor, () => {
+        this.scene.start("RegularRoom", { previousRoom: this, sequenceIndex: sequenceIndex + 1 });
+      });
+    } else {
+      // Last Room
+      this.physics.add.overlap(this.player, leftDoor, () => {
+        this.scene.start("RegularRoom", { previousRoom, sequenceIndex: sequenceIndex - 1 });
+      });
+      this.physics.add.overlap(this.player, rightDoor, () => {
+        this.scene.start("ShopRoom"); // Transition to the ShopRoom
+      });
+    }
   }
 
   createLayoutOne(centerX, centerY, roomWidth, roomHeight) {
@@ -109,29 +170,7 @@ class RegularRoom extends Phaser.Scene {
         .setOrigin(0.5, 0)
         .refreshBody();
     }
-
-    const graphics = this.add.graphics();
-    graphics.fillStyle(0x000000, 1);
-    const holes = [
-      { x: centerX - 300, y: centerY - 250, size: 100 },
-      { x: centerX + 300, y: centerY + 250, size: 120 },
-      { x: centerX - 200, y: centerY + 200, size: 80 },
-      { x: centerX + 200, y: centerY - 200, size: 90 },
-      { x: centerX - 400, y: centerY + 100, size: 100 },
-      { x: centerX + 400, y: centerY - 100, size: 110 },
-    ];
-
-    holes.forEach((hole) => {
-      graphics.fillRect(
-        hole.x - hole.size / 2,
-        hole.y - hole.size / 2,
-        hole.size,
-        hole.size,
-      );
-    });
-    graphics.setDepth(0);
   }
-
   createSecondRoomLayout(centerX, centerY, roomWidth, roomHeight) {
     // Add floor to fill the room area
     this.add
@@ -218,7 +257,6 @@ class RegularRoom extends Phaser.Scene {
         .refreshBody();
     }
   }
-
   createThirdRoomLayout(centerX, centerY, roomWidth, roomHeight) {
     this.add
       .image(centerX, centerY, "floor")
@@ -283,6 +321,8 @@ class RegularRoom extends Phaser.Scene {
     });
     graphics.setDepth(0);
   }
+
+  // ... Remaining layout methods (SecondRoomLayout and ThirdRoomLayout) remain unchanged ...
 
   update() {
     const speed = 160;
