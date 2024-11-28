@@ -177,7 +177,7 @@ class ShopRoom extends Phaser.Scene {
     // Create exit door (leading to NextRoom)
     const exitX = centerX + roomWidth / 2 - 50;
     const exitY = centerY;
-    this.createDoor(exitX, exitY, "NextRoom", "Exit");
+    this.createDoor(exitX, exitY, "BossRoom", "Exit");
   }
 
   createDoor(x, y, targetScene, label) {
@@ -191,7 +191,7 @@ class ShopRoom extends Phaser.Scene {
     doorLabel.setDepth(1);
 
     this.physics.add.overlap(this.player, door, () => {
-      this.scene.start(targetScene);
+      this.scene.start("BossRoom");
     });
   }
 
