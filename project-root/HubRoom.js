@@ -13,16 +13,24 @@ class HubRoom extends Phaser.Scene {
   }
 
   preload() {
+    // Preload assets for the room
     this.load.image("floor", "assets/floor.png");
     this.load.image("wall", "assets/wall.jpg");
     this.load.image("player", "assets/placeHolder.png");
+
+    // Preload background music
+    this.load.audio("GameMusic", "assets/GameMusic.wav");
   }
 
-  create() {  // Default to center of HubRoom if no position is passed
+  create() {
+    // Start background music when the HubRoom scene is created
+    this.backgroundMusic = this.sound.add("GameMusic", { loop: true, volume: 0.5 });
+    this.backgroundMusic.play();
+
     const worldWidth = 5000; // Overall world width for free movement and expansion
     const worldHeight = 5000; // Overall world height
 
-    const roomWidth = 1000; // Reduced room dimensions (adjustable)
+    const roomWidth = 1000; // Room dimensions
     const roomHeight = 1000;
 
     // Set the physics world bounds to the large world size
@@ -54,7 +62,6 @@ class HubRoom extends Phaser.Scene {
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
     });
-  
 
     // Call function to create the room layout
     this.createRoom(roomCenterX, roomCenterY, roomWidth, roomHeight);
@@ -146,7 +153,6 @@ class HubRoom extends Phaser.Scene {
       null,
       this
     );
-    
   }
 
   update() {
