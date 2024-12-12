@@ -17,6 +17,10 @@ class HubRoom extends Phaser.Scene {
     this.load.image("floor", "assets/floor.png");
     this.load.image("wall", "assets/wall.jpg");
     this.load.image("player", "assets/placeHolder.png");
+    this.load.image("box", "assets/box.png");
+    this.load.image("rocks", "assets/rocks.png");
+    this.load.image("counter", "assets/counter.png");
+    this.load.image("barrel", "assets/barrel.png"); // Preload the barrel image
 
     // Preload background music
     this.load.audio("GameMusic", "assets/GameMusic.wav");
@@ -74,8 +78,9 @@ class HubRoom extends Phaser.Scene {
   }
 
   createRoom(centerX, centerY, roomWidth, roomHeight) {
-    console.log("Room is created")
+    console.log("Room is created");
     console.log(centerX, centerY, roomWidth, roomHeight);
+
     // Add floor centered in the room
     this.add
       .image(centerX, centerY, "floor")
@@ -93,14 +98,14 @@ class HubRoom extends Phaser.Scene {
       y <= centerY + roomHeight / 2;
       y += wallTileSize
     ) {
-      let leftWall = this.walls
+      this.walls
         .create(centerX - roomWidth / 2, y, "wall")
         .setDisplaySize(wallTileSize, wallTileSize)
         .setSize(wallTileSize, wallTileSize)
         .setOrigin(1, 0.5)
         .setDepth(0)
         .refreshBody();
-      let rightWall = this.walls
+      this.walls
         .create(centerX + roomWidth / 2, y, "wall")
         .setDisplaySize(wallTileSize, wallTileSize)
         .setSize(wallTileSize, wallTileSize)
@@ -115,30 +120,85 @@ class HubRoom extends Phaser.Scene {
       x <= centerX + roomWidth / 2;
       x += wallTileSize
     ) {
-      let topWall = this.walls
+      this.walls
         .create(x, centerY - roomHeight / 2, "wall")
         .setDisplaySize(wallTileSize, wallTileSize)
         .setOrigin(0.5, 1)
         .setDepth(0)
         .refreshBody();
-      let bottomWall = this.walls
+      this.walls
         .create(x, centerY + roomHeight / 2, "wall")
         .setDisplaySize(wallTileSize, wallTileSize)
         .setOrigin(0.5, 0)
         .setDepth(0)
         .refreshBody();
     }
+
+    // Smaller boxes in an arrow shape pointing to the corner
+    const boxSize = 30;
+    const boxOffsetX = roomWidth / 2 - boxSize - 0; 
+    const boxOffsetY = -roomHeight / 2 + boxSize + 40; 
+    this.boxes = this.physics.add.staticGroup();
+
+    const rows = 3;
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col <= row; col++) {
+        this.boxes.create(
+          centerX + boxOffsetX - col * boxSize,
+          centerY + boxOffsetY - row * boxSize,
+          "box"
+        ).setDisplaySize(boxSize, boxSize)
+          .setDepth(1)
+          .refreshBody();
+      }
+    }
+
+    const counterSize = 50;
+    const counterSpacing = 150;
+    this.counters = this.physics.add.staticGroup();
+
+    const counterStartX = centerX + roomWidth / 2 - counterSpacing;
+    const counterStartY = centerY - roomHeight / 2 + 30;
+
+    for (let j = 0; j < 4; j++) {
+      this.counters.create(
+        counterStartX,
+        counterStartY + j * counterSize,
+        "counter"
+      ).setDisplaySize(counterSize, counterSize)
+        .refreshBody();
+    }
+
+    for (let i = 1; i < 4; i++) {
+      this.counters.create(
+        counterStartX + i * counterSize,
+        counterStartY + 3 * counterSize,
+        "counter"
+      ).setDisplaySize(counterSize, counterSize)
+        .refreshBody();
+    }
+
+    // Add collisions between the player and these objects
+    this.physics.add.collider(this.player, this.boxes);
+    this.physics.add.collider(this.player, this.counters);
+
+    // Add the barrel behind the counter
+    const barrelSize = 50;
+    const barrelX = centerX + roomWidth / 2 - barrelSize / 2 - 60; 
+    const barrelY = centerY - roomHeight / 2 + barrelSize / 2 + 80; 
+
+    this.add.image(barrelX, barrelY, "barrel")
+        .setDisplaySize(barrelSize, barrelSize)
+        .setDepth(0); 
   }
 
   createDoorways(centerX, centerY, roomWidth, roomHeight) {
-    // Create a simple rectangle doorway on the right wall
     this.doorRight = this.add
       .rectangle(centerX + roomWidth / 2 - 20, centerY, 20, 50, 0x00ff00)
       .setOrigin(0.5, 0.5)
       .setDepth(0);
-    this.physics.add.existing(this.doorRight, true); // Make it a static body
+    this.physics.add.existing(this.doorRight, true); 
 
-    // Add overlap for scene transition when player enters the right door
     this.physics.add.overlap(
       this.player,
       this.doorRight,
@@ -157,9 +217,8 @@ class HubRoom extends Phaser.Scene {
 
   update() {
     const speed = 160;
-    this.player.setVelocity(0); // Stop movement when no key is pressed
+    this.player.setVelocity(0);
 
-    // Handle player movement
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-speed);
     } else if (this.cursors.right.isDown) {
