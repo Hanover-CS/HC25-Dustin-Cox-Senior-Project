@@ -65,6 +65,7 @@ class HubRoom extends Phaser.Scene {
       down: Phaser.Input.Keyboard.KeyCodes.S,
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
+      interact: Phaser.Input.Keyboard.KeyCodes.E // 'E' key for interaction
     });
 
     // Call function to create the room layout
@@ -75,11 +76,42 @@ class HubRoom extends Phaser.Scene {
 
     // Create doorways for transitions (only right door for HubRoom)
     this.createDoorways(worldWidth / 2, worldHeight / 2, roomWidth, roomHeight);
+
+    // Initialize the conversation state
+    this.conversationStep = 0;
+    this.conversationTexts = [
+      "pst! pst! In here!",
+      "Im in here. In the barrel. Don't worry I ain't no monster or weirdo",
+      "I am just a simple man hiding in here in this finely crafted dwarven beer barrel.",
+      "It's my safe space in case any of the monsters come around! no evil plant or skeleton getting me in here!",
+      "Anyway, you were out cold for awhile after you fell in here. You sure you alright? We dont have any healers or doctors down here.",
+      "If you need any potions we have a few available for free, but the high grade stuff will cost you",
+      "Anyway, introductions are in order, Names Winston, Nice to meet'cha! I used to be a merchant befor falling in here.",
+      "What should I call you? What were you before you had the misfortune of falling in?",
+      "...",
+      "I get it, your one of those strong silent types. I can tell by the sword on your back",
+      "Well, I used to sell spice, now I just sit idle in this barrel and trade food with those who brave the Dungeon.",
+      "Anyway, If you happen to come across some precious materials called oricalcum make sure to bring it to Brackus!",
+      "He is our resident blacksmith, he will make your swords and daggers shaper than Obsidian and Sturdier than Steel!",
+      "Also, is you find some notes from those who perished in the dungeon bring them to me. I've taken to collecting them",
+      "So that if we manage to find a way out of here I can return them to their families. They deserve closure."
+    ];
+
+    // Create a text bubble but initially hide it
+    this.textBubble = this.add.text(roomCenterX, roomCenterY - 60, "", {
+      fontSize: '22px',
+      fill: '#fff',
+      backgroundColor: '#000',
+      padding: { x: 10, y: 10 },
+      wordWrap: { width: 200, useAdvancedWrap: true }
+    }).setOrigin(0.5).setAlpha(0).setDepth(10); // Set higher depth for visibility
+
+    // Define the interaction range for detecting proximity
+    this.interactionRange = 350; // Increase detection range
   }
 
   createRoom(centerX, centerY, roomWidth, roomHeight) {
     console.log("Room is created");
-    console.log(centerX, centerY, roomWidth, roomHeight);
 
     // Add floor centered in the room
     this.add
@@ -187,9 +219,9 @@ class HubRoom extends Phaser.Scene {
     const barrelX = centerX + roomWidth / 2 - barrelSize / 2 - 60; 
     const barrelY = centerY - roomHeight / 2 + barrelSize / 2 + 80; 
 
-    this.add.image(barrelX, barrelY, "barrel")
+    this.barrel = this.add.image(barrelX, barrelY, "barrel")
         .setDisplaySize(barrelSize, barrelSize)
-        .setDepth(0); 
+        .setDepth(0);
   }
 
   createDoorways(centerX, centerY, roomWidth, roomHeight) {
@@ -229,6 +261,32 @@ class HubRoom extends Phaser.Scene {
       this.player.setVelocityY(-speed);
     } else if (this.cursors.down.isDown) {
       this.player.setVelocityY(speed);
+    }
+
+    // Check if player is near the barrel and 'E' key is pressed
+    const distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.barrel.x, this.barrel.y);
+    
+    if (distance < this.interactionRange) {
+      // Show the text bubble when within interaction range
+      this.textBubble.setPosition(this.barrel.x + 100, this.barrel.y - 90); // Adjust position freely
+      this.textBubble.setAlpha(1);
+
+      // Listen for a single press-and-release of 'E' to progress conversation
+      if (Phaser.Input.Keyboard.JustUp(this.cursors.interact)) {
+          if (this.conversationStep < this.conversationTexts.length) {
+              // Display the next line of the conversation
+              this.textBubble.setText(this.conversationTexts[this.conversationStep]);
+              this.conversationStep++;
+          } else {
+              // End of conversation: Hide the bubble
+              this.textBubble.setAlpha(0);
+              this.conversationStep = 0;
+          }
+      }
+  } else {
+      // Hide the text bubble when outside the interaction range
+      this.textBubble.setAlpha(0);
+      this.conversationStep = 0;
     }
   }
 }
