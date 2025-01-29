@@ -20,7 +20,9 @@ class HubRoom extends Phaser.Scene {
     this.load.image("box", "assets/box.png");
     this.load.image("rocks", "assets/rocks.png");
     this.load.image("counter", "assets/counter.png");
-    this.load.image("barrel", "assets/barrel.png"); // Preload the barrel image
+    this.load.image("barrel", "assets/barrel.png");
+    this.load.image("miner", "assets/miner.png");
+    this.load.image("anvil", "assets/anvil.png");
 
     // Preload background music
     this.load.audio("GameMusic", "assets/GameMusic.wav");
@@ -166,6 +168,8 @@ class HubRoom extends Phaser.Scene {
         .refreshBody();
     }
 
+
+
     // Smaller boxes in an arrow shape pointing to the corner
     const boxSize = 30;
     const boxOffsetX = roomWidth / 2 - boxSize - 0; 
@@ -222,6 +226,9 @@ class HubRoom extends Phaser.Scene {
     this.barrel = this.add.image(barrelX, barrelY, "barrel")
         .setDisplaySize(barrelSize, barrelSize)
         .setDepth(0);
+
+
+    
   }
 
   createDoorways(centerX, centerY, roomWidth, roomHeight) {
