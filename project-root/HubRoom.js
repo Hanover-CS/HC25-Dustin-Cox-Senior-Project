@@ -167,9 +167,16 @@ class HubRoom extends Phaser.Scene {
         .setDepth(0)
         .refreshBody();
     }
+    //WORK IN PROGRESS
+    const assetSize = 50;
+    const assetOffsetX = -roomWidth / 2 + assetSize + 20; // Shift left
+    const assetOffsetY = -roomHeight / 2 + assetSize + 20; // Shift up
+    this.assets = this.physics.add.staticGroup();
+    this.assets.create(centerX + assetOffsetX, centerY + assetOffsetY, "blacksmith").setDisplaySize(assetSize, assetSize).refreshBody();
+    this.assets.create(centerX + assetOffsetX + 60, centerY + assetOffsetY, "anvil").setDisplaySize(assetSize, assetSize).refreshBody();
 
-
-
+    this.physics.add.collider(this.player, this.assets);
+    
     // Smaller boxes in an arrow shape pointing to the corner
     const boxSize = 30;
     const boxOffsetX = roomWidth / 2 - boxSize - 0; 
