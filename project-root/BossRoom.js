@@ -11,7 +11,7 @@ class BossRoom extends Phaser.Scene {
     this.load.image("floor", "assets/floor.png");
     this.load.image("wall", "assets/wall.jpg");
     this.load.image("player", "assets/placeHolder.png");
-    this.load.image("rock", "assets/rocks.png"); // Load the rock image
+    this.load.image("rock", "assets/rocks.png");
   }
 
   create() {
