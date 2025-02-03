@@ -21,7 +21,7 @@ class HubRoom extends Phaser.Scene {
     this.load.image("rocks", "assets/rocks.png");
     this.load.image("counter", "assets/counter.png");
     this.load.image("barrel", "assets/barrel.png");
-    this.load.image("miner", "assets/miner.png");
+    this.load.image("blacksmith", "assets/blacksmith.png");
     this.load.image("anvil", "assets/anvil.png");
 
     // Preload background music
