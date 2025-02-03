@@ -6,8 +6,9 @@ class HubRoom extends Phaser.Scene {
   constructor() {
     super({ key: "HubRoom" });
   }
-
+  
   init(data) {
+    //references to game scene and room manager
     this.gameScene = data.gameScene;
     this.roomManager = data.roomManager;
   }
@@ -29,30 +30,29 @@ class HubRoom extends Phaser.Scene {
   }
 
   create() {
-    // Start background music when the HubRoom scene is created
+    // Start background music when the HubRoom scene is created and on loop
     this.backgroundMusic = this.sound.add("GameMusic", { loop: true, volume: 0.5 });
     this.backgroundMusic.play();
 
     const worldWidth = 5000; // Overall world width for free movement and expansion
     const worldHeight = 5000; // Overall world height
-
     const roomWidth = 1000; // Room dimensions
     const roomHeight = 1000;
 
     // Set the physics world bounds to the large world size
     this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
 
-    // Set the camera to follow the player
+    // configure camera bounds and zoom level
     this.cameras.main.setBounds(0, 0, worldWidth, worldHeight); // Large world space
     this.cameras.main.setZoom(0.5); // Adjust zoom to see more of the world
 
-    // Set the camera's position to follow the player
+    // center of the room definition
     const roomCenterX = worldWidth / 2;
     const roomCenterY = worldHeight / 2;
 
     // Create the player at the given position (by default, at the center of HubRoom)
     this.player = this.physics.add.sprite(roomCenterX, roomCenterY, "player");
-    this.player.setCollideWorldBounds(false); // Remove collision with world bounds for free movement
+    this.player.setCollideWorldBounds(false); 
 
     // Set the player's depth to appear on top of the floor
     this.player.setDepth(1);
@@ -79,7 +79,7 @@ class HubRoom extends Phaser.Scene {
     // Create doorways for transitions (only right door for HubRoom)
     this.createDoorways(worldWidth / 2, worldHeight / 2, roomWidth, roomHeight);
 
-    // Initialize the conversation state
+    // Initialize the conversation with npc
     this.conversationStep = 0;
     this.conversationTexts = [
       "pst! pst! In here!",
@@ -99,7 +99,7 @@ class HubRoom extends Phaser.Scene {
       "So that if we manage to find a way out of here I can return them to their families. They deserve closure."
     ];
 
-    // Create a text bubble but initially hide it
+    // Create a text bubble for converstation (initially hidden)
     this.textBubble = this.add.text(roomCenterX, roomCenterY - 60, "", {
       fontSize: '22px',
       fill: '#fff',
@@ -108,8 +108,8 @@ class HubRoom extends Phaser.Scene {
       wordWrap: { width: 200, useAdvancedWrap: true }
     }).setOrigin(0.5).setAlpha(0).setDepth(10); // Set higher depth for visibility
 
-    // Define the interaction range for detecting proximity
-    this.interactionRange = 350; // Increase detection range
+    // Define the interaction range
+    this.interactionRange = 350;
   }
 
   createRoom(centerX, centerY, roomWidth, roomHeight) {
@@ -167,7 +167,7 @@ class HubRoom extends Phaser.Scene {
         .setDepth(0)
         .refreshBody();
     }
-    //WORK IN PROGRESS
+    //add second npc and anvil with collision
     const assetSize = 50;
     const assetOffsetX = -roomWidth / 2 + assetSize + 20; // Shift left
     const assetOffsetY = -roomHeight / 2 + assetSize + 20; // Shift up
@@ -177,7 +177,7 @@ class HubRoom extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.assets);
     
-    // Smaller boxes in an arrow shape pointing to the corner
+    // Small boxes in corner with conversation npc
     const boxSize = 30;
     const boxOffsetX = roomWidth / 2 - boxSize - 0; 
     const boxOffsetY = -roomHeight / 2 + boxSize + 40; 
@@ -195,7 +195,7 @@ class HubRoom extends Phaser.Scene {
           .refreshBody();
       }
     }
-
+    //created the counter seperating player and npc
     const counterSize = 50;
     const counterSpacing = 150;
     this.counters = this.physics.add.staticGroup();
@@ -225,7 +225,7 @@ class HubRoom extends Phaser.Scene {
     this.physics.add.collider(this.player, this.boxes);
     this.physics.add.collider(this.player, this.counters);
 
-    // Add the barrel behind the counter
+    // Add the barrel behind the counter(npc)
     const barrelSize = 50;
     const barrelX = centerX + roomWidth / 2 - barrelSize / 2 - 60; 
     const barrelY = centerY - roomHeight / 2 + barrelSize / 2 + 80; 
@@ -237,7 +237,7 @@ class HubRoom extends Phaser.Scene {
 
     
   }
-
+  
   createDoorways(centerX, centerY, roomWidth, roomHeight) {
     this.doorRight = this.add
       .rectangle(centerX + roomWidth / 2 - 20, centerY, 20, 50, 0x00ff00)

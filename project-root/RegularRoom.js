@@ -41,6 +41,8 @@ class RegularRoom extends Phaser.Scene {
       right: Phaser.Input.Keyboard.KeyCodes.D,
     });
 
+    
+
     // Randomly choose one of the three room layouts
     const roomType = Math.floor(Math.random() * 3);
     switch (roomType) {
@@ -322,7 +324,7 @@ class RegularRoom extends Phaser.Scene {
     graphics.setDepth(0);
   }
 
-  // ... Remaining layout methods (SecondRoomLayout and ThirdRoomLayout) remain unchanged ...
+  // ... Remaining layout methods (SecondRoomLayout and ThirdRoomLayout) ...
 
   update() {
     const speed = 160;

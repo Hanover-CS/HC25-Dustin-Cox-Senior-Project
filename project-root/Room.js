@@ -51,7 +51,7 @@ class Room extends Phaser.Scene {
     this.physics.add.collider(this.player, this.walls);
   }
 
-  // Returns the spawn position based on which door the player entered
+  // Returns the spawn position based on which door the player entered, *not entirely working*
   getSpawnPosition(entryDoor, worldWidth, worldHeight, roomWidth, roomHeight) {
     switch (entryDoor) {
       case 'left':
