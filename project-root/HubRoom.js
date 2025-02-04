@@ -84,6 +84,7 @@ class HubRoom extends Phaser.Scene {
     this.conversationTexts = [
       "pst! pst! In here!",
       "Im in here. In the barrel. Don't worry I ain't no monster or weirdo",
+      "I mean, your in a box so me being in a barrel isn't all that weird, huh?",
       "I am just a simple man hiding in here in this finely crafted dwarven beer barrel.",
       "It's my safe space in case any of the monsters come around! no evil plant or skeleton getting me in here!",
       "Anyway, you were out cold for awhile after you fell in here. You sure you alright? We dont have any healers or doctors down here.",
@@ -101,7 +102,7 @@ class HubRoom extends Phaser.Scene {
 
     // Create a text bubble for converstation (initially hidden)
     this.textBubble = this.add.text(roomCenterX, roomCenterY - 60, "", {
-      fontSize: '22px',
+      fontSize: '30px',
       fill: '#fff',
       backgroundColor: '#000',
       padding: { x: 10, y: 10 },
